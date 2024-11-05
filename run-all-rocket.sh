@@ -29,27 +29,45 @@
 #SRCDIRS="consumer/jpeg/jpeg-6a telecomm/adpcm/src security/rijndael security/sha telecomm/fft"
 SRCDIRS="consumer/jpeg/jpeg-6a"
 
-
 CURRDIR=$(pwd)
 
+# Check to see if the user has already sourced their Chipyard paths - a valid build space is needed for this
+# TODO: Alternatively, for independence, save off a copy of the riscv64-unknown-elf-gcc binary here, as well as spike
+if [ -z "$RISCV" ]; then
+    # Source your personal Chipyard env here - TODO: make this more robust/flexible
+    echo "Sourcing Chipyard env.sh for paths, sit tight..."
+    source /home/tyee/ECE_562_BuildSpace/chipyard/env.sh
+fi
 # compiler
 export CC="$RISCV/bin/riscv64-unknown-elf-gcc"
+
+# verilator executable
+export RTLCONFIG="$RISCV/../../sims/verilator/simulator-chipyard.harness-FastRTLRocketConfig"
+export RTLCONFIG_NAME="FastRTLRocketConfig"
+
 # user large or small tests
 export MIBENCH_FAST=true
 
 # whether we want tracing
 export MIBENCH_TRACE=false
 
+# Timestamp to be used later
+export DATE=$(date +%Y_%m_%d_%H%Mh)
+
 
 # command to run binaries
 if [ "$MIBENCH_TRACE" = true ] ; then
     export RUNIT="spike-wrapper-traces.sh $CURRDIR/traces"
 else
-    export RUNIT=spike-wrapper.sh
+    export RUNIT="rocket-wrapper.sh"
 fi
 
 # path passed to run scripts in directories
 export MIBENCH_RUN="$CURRDIR/$RUNIT"
+
+if [ -d "/home/tyee/ECE_562_BuildSpace/mibench/_Benchmark_Results" ] ; then
+    mkdir /home/tyee/ECE_562_BuildSpace/mibench/_Benchmark_Results
+fi
 
 for d in ${SRCDIRS}
 do
