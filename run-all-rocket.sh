@@ -26,8 +26,7 @@
 #          automotive/qsort
 #          automotive/susan"
 
-#SRCDIRS="consumer/jpeg/jpeg-6a telecomm/adpcm/src security/rijndael security/sha telecomm/fft"
-SRCDIRS="consumer/jpeg/jpeg-6a"
+SRCDIRS="consumer/jpeg/jpeg-6a telecomm/adpcm/src security/rijndael security/sha telecomm/fft"
 
 CURRDIR=$(pwd)
 
