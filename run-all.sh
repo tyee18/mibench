@@ -31,6 +31,21 @@ SRCDIRS="consumer/jpeg/jpeg-6a telecomm/adpcm/src security/rijndael security/sha
 
 CURRDIR=$(pwd)
 
+export RTLCONFIG_NAME="spike"
+
+# Check to see if the user has already sourced their Chipyard paths - a valid build space is needed for this
+# TODO: Alternatively, for independence, save off a copy of the riscv64-unknown-elf-gcc binary here, as well as spike
+if [ -z "$RISCV" ]; then
+    # Source your personal Chipyard env here
+    echo "Sourcing Chipyard env.sh for paths, sit tight..."
+    # For now, this requires the user to copy their Chipyard-generated env.sh into the mibench kit.
+    source env.sh
+fi
+
+
+# Timestamp to be used later
+export DATE=$(date +%Y_%m_%d_%H%M%S)
+
 # compiler
 export CC="$RISCV/bin/riscv64-unknown-elf-gcc"
 # user large or small tests
@@ -47,6 +62,12 @@ else
     export RUNIT=spike-wrapper.sh
 fi
 
+# Create an output directory for benchmark results if one doesn't exist
+if [ ! -d $CURRDIR"/_Benchmark_Results" ] ; then
+    echo "Directory does not exist"
+    mkdir $CURRDIR/"_Benchmark_Results"
+fi
+
 # path passed to run scripts in directories
 export MIBENCH_RUN="$CURRDIR/$RUNIT"
 
@@ -54,6 +75,9 @@ for d in ${SRCDIRS}
 do
     echo ${d}
     cd ${d}
-    ./run-all.sh
+    benchmark=$(echo "$d" | sed 's/\//-/g')
+    time perf stat -o $RTLCONFIG_NAME'_'$benchmark'_'$DATE'.txt' -- ./run-all.sh
+    #./run-all.sh
+    mv *.txt $CURRDIR"/_Benchmark_Results"
     cd ${CURRDIR}
 done
