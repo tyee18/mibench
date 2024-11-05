@@ -27,9 +27,23 @@ progname=$1
 echo ${progname}
 size ${progname}
 
+
+
+# Copy the program. We use kermit to avoid FTP hassle (yum install ckermit).
+echo "Sending file..." > /tmp/log
+kermit -M root <<EOF >> /tmp/log
+ftp open 192.168.0.110
+user root
+binary
+put ${progname} ${progname}
+bye
+EOF
+
 # Run the program
 echo "Running commands..." >> /tmp/log
 expect <<EOF >> /tmp/log
+set timeout 300
+spawn telnet 192.168.0.110
 expect "# "
 send "chmod ugo+x ${progname}\n"
 expect "# "
