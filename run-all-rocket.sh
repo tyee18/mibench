@@ -52,10 +52,6 @@ export MIBENCH_FAST=true
 # whether we want tracing
 export MIBENCH_TRACE=false
 
-# Timestamp to be used later
-export DATE=$(date +%Y_%m_%d_%H%M%S)
-
-
 # command to run binaries
 if [ "$MIBENCH_TRACE" = true ] ; then
     export RUNIT="rocket-wrapper-traces.sh $CURRDIR/traces"
@@ -76,8 +72,9 @@ for d in ${SRCDIRS}
 do
     echo ${d}
     cd ${d}
+    timestamp=$(date +%Y_%m_%d_%H%M%S)
     benchmark=$(echo "$d" | sed 's/\//-/g')
-    time perf stat -o $RTLCONFIG_NAME'_'$benchmark'_'$DATE'.txt' -- ./run-all.sh > filename
+    time perf stat -o $RTLCONFIG_NAME'_'$benchmark'_'$timestamp'.txt' -- ./run-all.sh > filename
     #./run-all.sh
     mv *.txt $CURRDIR"/_Benchmark_Results"
     cd ${CURRDIR}

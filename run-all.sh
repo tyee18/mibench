@@ -42,10 +42,6 @@ if [ -z "$RISCV" ]; then
     source env.sh
 fi
 
-
-# Timestamp to be used later
-export DATE=$(date +%Y_%m_%d_%H%M%S)
-
 # compiler
 export CC="$RISCV/bin/riscv64-unknown-elf-gcc"
 # user large or small tests
@@ -75,8 +71,9 @@ for d in ${SRCDIRS}
 do
     echo ${d}
     cd ${d}
+    timestamp=$(date +%Y_%m_%d_%H%M%S)
     benchmark=$(echo "$d" | sed 's/\//-/g')
-    time perf stat -o $RTLCONFIG_NAME'_'$benchmark'_'$DATE'.txt' -- ./run-all.sh
+    time perf stat -o $RTLCONFIG_NAME'_'$benchmark'_'$timestamp'.txt' -- ./run-all.sh
     #./run-all.sh
     mv *.txt $CURRDIR"/_Benchmark_Results"
     cd ${CURRDIR}

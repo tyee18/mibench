@@ -24,6 +24,10 @@
 make clean
 make
 
-# Run the programs
-${MIBENCH_RUN} ./basicmath_small
-${MIBENCH_RUN} ./basicmath_large
+
+if [ "$MIBENCH_FAST" = true ] ; then
+    ${MIBENCH_RUN} ./basicmath_small > $RTLCONFIG_NAME'_'$timestamp'_basicmath_output_small_.txt'
+
+else
+    ${MIBENCH_RUN} ./basicmath_large > $RTLCONFIG_NAME'_'$timestamp'_basicmath_output_large_.txt'
+fi
