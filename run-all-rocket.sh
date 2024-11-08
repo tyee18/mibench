@@ -64,7 +64,7 @@ export MIBENCH_RUN="$CURRDIR/$RUNIT"
 
 # Create an output directory for benchmark results if one doesn't exist
 if [ ! -d $CURRDIR"/_Benchmark_Results" ] ; then
-    echo "Directory does not exist"
+    echo "Creating benchmarks output directory..."
     mkdir $CURRDIR/"_Benchmark_Results"
 fi
 
