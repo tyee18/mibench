@@ -18,9 +18,9 @@ binprefix =
 manprefix =
 manext = 1
 mandir = $(prefix)/man/man$(manext)
-
+CFLAGS = -static
 # The name of your C compiler:
-CC= gcc
+CC= /home/tyee/ECE_562_BuildSpace/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gcc
 
 # You may need to adjust these cc options:
 CFLAGS= -O  -I$(srcdir)
@@ -53,7 +53,7 @@ AR= ar rc
 # second step in .a creation (use "touch" if not needed)
 AR2= ranlib
 # installation program
-INSTALL= /usr/bin/install -c
+INSTALL= /home/tyee/ECE_562_BuildSpace/chipyard/.conda-env/bin/install -c
 INSTALL_PROGRAM= ${INSTALL}
 INSTALL_DATA= ${INSTALL} -m 644
 

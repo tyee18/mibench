@@ -26,7 +26,7 @@
 #          automotive/qsort
 #          automotive/susan"
 
-SRCDIRS="consumer/jpeg/jpeg-6a telecomm/adpcm/src security/rijndael security/sha telecomm/fft"
+SRCDIRS="automotive/basicmath automotive/bitcount automotive/qsort automotive/susan consumer/jpeg/jpeg-6a telecomm/adpcm/src security/rijndael security/sha telecomm/fft"
 
 
 CURRDIR=$(pwd)
@@ -55,7 +55,7 @@ export MIBENCH_TRACE=false
 if [ "$MIBENCH_TRACE" = true ] ; then
     export RUNIT="spike-wrapper-traces.sh $CURRDIR/traces"
 else
-    export RUNIT=spike-wrapper.sh
+    export RUNIT="spike-wrapper.sh"
 fi
 
 # Create an output directory for benchmark results if one doesn't exist
@@ -75,6 +75,6 @@ do
     benchmark=$(echo "$d" | sed 's/\//-/g')
     time perf stat -o $RTLCONFIG_NAME'_'$benchmark'_'$timestamp'.txt' -- ./run-all.sh
     #./run-all.sh
-    mv *.txt $CURRDIR"/_Benchmark_Results"
+    mv $RTLCONFIG_NAME* $CURRDIR"/_Benchmark_Results"
     cd ${CURRDIR}
 done

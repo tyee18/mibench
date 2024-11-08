@@ -76,6 +76,6 @@ do
     benchmark=$(echo "$d" | sed 's/\//-/g')
     time perf stat -o $RTLCONFIG_NAME'_'$benchmark'_'$timestamp'.txt' -- ./run-all.sh > filename
     #./run-all.sh
-    mv *.txt $CURRDIR"/_Benchmark_Results"
+    mv $RTLCONFIG_NAME* $CURRDIR"/_Benchmark_Results"
     cd ${CURRDIR}
 done

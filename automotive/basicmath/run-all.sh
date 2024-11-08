@@ -24,10 +24,11 @@
 make clean
 make
 
+timestamp=$(date +%Y_%m_%d_%H%M%S)
 
 if [ "$MIBENCH_FAST" = true ] ; then
-    ${MIBENCH_RUN} ./basicmath_small > $RTLCONFIG_NAME'_'$timestamp'_basicmath_output_small_.txt'
+    ${MIBENCH_RUN} ./basicmath_small > $RTLCONFIG_NAME'_'$timestamp'_basicmath_output_small.txt'
 
 else
-    ${MIBENCH_RUN} ./basicmath_large > $RTLCONFIG_NAME'_'$timestamp'_basicmath_output_large_.txt'
+    ${MIBENCH_RUN} ./basicmath_large > $RTLCONFIG_NAME'_'$timestamp'_basicmath_output_large.txt'
 fi
