@@ -1,2 +1,2 @@
 #!/bin/sh
-crc ../adpcm/data/large.pcm > output_small.txt
+crc ../adpcm/data/small.pcm > output_small.txt

@@ -1,11 +1,28 @@
-# Introduction
+# Table of Contents
+- [Table of Contents](#table-of-contents)
+  - [Introduction ](#introduction-)
+  - [MiBench Notes ](#mibench-notes-)
+    - [Prerequisites: ](#prerequisites-)
+    - [Build and Execution Instructions: ](#build-and-execution-instructions-)
+  - [Chipyard Build Notes ](#chipyard-build-notes-)
+  - [Currently Supported Benchmarks:](#currently-supported-benchmarks)
+    - [Automotive ](#automotive-)
+    - [Consumer ](#consumer-)
+    - [Network ](#network-)
+    - [Office ](#office-)
+    - [Security ](#security-)
+    - [Telecomm ](#telecomm-)
 
-## MiBench Build Instructions / Prerequisites
-### Prequisites:
+
+## Introduction <a id="introduction-"></a>
+The goal of this repository is to add compatibility between the free MiBench benchmark suite, and Chipyard RISC-V-compatible simulators. This allows others to benchmark new computer architecture implementations and compare performance to baseline designs.
+
+## MiBench Notes <a id="mibench-notes-"></a>
+### Prerequisites: <a id="prerequisites-"></a>
 - Working version of `gcc`, `make`, `perf`
 - Don't forget to quote the original source of MiBench, from the University of Michigan at Ann Arbor (https://vhosts.eecs.umich.edu/mibench/)
 
-### Build and Execution Instructions
+### Build and Execution Instructions: <a id="build-and-execution-instructions-"></a>
 - Each set of benchmarks is compiled individually
   - By default, they are compiled using gcc (see each benchmark's default `Makefile` for further information)
   - There are several `run-all.sh` wrappers that have been generated, which also compile and run the benchmarks automatically, so you don't have to.
@@ -23,8 +40,7 @@
         - Note that these runs take **HOURS** if running through a simulated chip, such as `RocketChip`.
         - Also note that the `pk` call is necessary for this to run properly.
 
-## Chipyard RTL Build Instructions / Prerequisites
-### Prerequisites:
+## Chipyard Build Notes <a id="chipyard-build-notes-"></a>
 - It is **HIGHLY** recommended to follow the Chipyard documentation in order to set up your environment for first-time use (https://chipyard.readthedocs.io/en/latest/index.html)
 - At a minimum, you'll want to have the following available after building Chipyard RISC-V tools for the first time:
   - A compiled version of `conda`, which should be generated when setting up Miniforge prior to cloning out and building Chipyard.
@@ -32,3 +48,45 @@
   - A working, compiled set of `riscv-tools` binaries (particularly the gcc libraries for RISC-V elf binaries, such as `riscv64-unknown-elf-gcc`)
   - The `env.sh` file that is generated after you build the `riscv-tools` within the Chipyard framework for the first time (through running the `build-setup.sh` script at the top level of the repo)
   - A compiled simulation binary (I happen to have used my verilator compiled binary for the sake of example), such as `simulator-chipyard.harness-LargeBoomV3Config`
+
+## Currently Supported Benchmarks:<a id="currently-supported-benchmarks-"></a>
+### Automotive <a id="automotive-"></a>
+- [x] basicmath
+- [x] bitcount
+- [x] qsort
+- [x] susan
+
+### Consumer <a id="consumer-"></a>
+- [x] jpeg
+- [ ] lame
+- [ ] mad
+- [ ] tiff-data
+- [ ] tiff-v3.5.4
+- [ ] tiff2bw
+- [ ] tiff2rgba
+- [ ] tiffdither
+- [ ] tiffmedian
+- [ ] typeset
+
+### Network <a id="network-"></a>
+- [x] dijkstra
+- [ ] patricia
+
+### Office <a id="office-"></a>
+- [ ] ghostscript
+- [ ] ispell
+- [ ] rsynth
+- [ ] sphinx
+- [x] stringsearch
+
+### Security <a id="security-"></a>
+- [ ] blowfish
+- [ ] pgp
+- [x] rijndael
+- [x] sha
+
+### Telecomm <a id="telecomm-"></a>
+- [x] adpcm
+- [x] CRC32
+- [x] fft
+- [ ] gsm
