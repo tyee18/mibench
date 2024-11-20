@@ -27,10 +27,20 @@ The goal of this repository is to add compatibility between the free MiBench ben
   - By default, they are compiled using gcc (see each benchmark's default `Makefile` for further information)
   - There are several `run-all.sh` wrappers that have been generated, which also compile and run the benchmarks automatically, so you don't have to.
 - Instructions as follows (assumes Chipyard has already been built / established) to build and run benchmarks **automated**:
-  - At the top level directory, there should be a `run-all.sh` script, that can loop through available test suites, build them with your choice of compiler, and run them against a selected simulator.
-  - Benchmarks are timed and saved off using `time` and `perf`, for viewing later. `perf` covers a lot of good basics, such as number of cycles / instructions / branches executed, branch misses.
+  1. Copy your `env.sh` from your Chipyard repo into the top-level directory.
+  2. Within the `run-all-rocket.sh` script, update the following variables for your testing:
+     - `SRCDIRS`: which tests you want to run.
+     - `RTLCONFIG`: the full path to your simulated design under test.
+     - `RTLCONFIG_NAME`: the name of your simulated design under test. This can be whatever you'd like it to be.
+  3. From the command line, execute `./run-all-rocket.sh`
+     - Files for each benchmark should be produced and automatically moved into a folder called `_Benchmark_Results`. You should see the following:
+           - `$RTLCONFIG_NAME'_'$benchmark'_'$timestamp'.txt'`: a file containing the timing data from `time` and `perf`.
+           - Other files generated are artifacts of the tests themselves, and can be verified for functionality.
+- Notes:
+  - At the top level directory, there should be a `run-all-rocket.sh` script, that can loop through available test suites, build them with your choice of compiler, and run them against a selected simulator.
+  - Benchmarks are timed and saved off using `time` and `perf`, for viewing later. `perf` covers a lot of good basics, such as number of cycles / instructions / branches executed, branch misses, but these are relative to your physical CPU, **NOT** the emulated RISC-V CPU.
     - Note that if you are using a WSL distribution on Windows 10, the aforementioned hardware counters are not supported. Workarounds include running benchmarks on Windows 11, or having a physical installation of Linux / Ubuntu / your distribution of choice.
-- Instructions as follows (assumes Chipyard has already been built / established) to build and run benchmarks manually:
+- Instructions as follows (assumes Chipyard has already been built / established) to build and run benchmarks **manually**:
   1. From your MiBench repo, source the chipyard `env.sh` so that you have paths to the tools available
   2. Set your `CC` environment variable to whichever `gcc` library you plan on using for compatibility to your simulated design. In my case, I was running with a verilator simulator harness, on a Windows Subsystem for Linux (WSL), so I chose to use the `riscv64-unknown-elf-gcc`. So:
      1. In Bash: `export CC=~/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gcc`

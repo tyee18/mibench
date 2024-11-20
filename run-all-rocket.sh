@@ -20,13 +20,25 @@
 # this program; if not, write to the Free Software Foundation, Inc., 51
 # Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
 
-#srcdirs="automotive consumer network office security telecomm"
-# srcdirs="automotive/basicmath
-#          automotive/bitcount
-#          automotive/qsort
-#          automotive/susan"
+# Currently supported options:
+# automotive/basicmath
+# automotive/bitcount
+# automotive/qsort
+# automotive/susan
+# consumer/jpeg/jpeg-6a
+# network/dijkstra
+# office/stringsearch
+# security/rjindael
+# security/sha
+# telecomm/adpcm
+# telecomm/CRC32
+# telecomm/fft
 
-SRCDIRS="consumer/jpeg/jpeg-6a telecomm/adpcm/src security/rijndael security/sha telecomm/fft"
+# The benchmarks to be run - multiple can be input to run in succession. E.g.,
+# SRCDIRS="automotive/bitcount network/dijkstra telecomm/CRC32"
+# NOTE: it is important here to specify the FULL PATH to the respective "run-all.sh" file.
+# E.g., to run the JPEG test, SRCDIRS="consumer/jpeg/jpeg-6a"
+SRCDIRS=""
 
 CURRDIR=$(pwd)
 
@@ -42,14 +54,16 @@ fi
 # compiler
 export CC="$RISCV/bin/riscv64-unknown-elf-gcc"
 
-# verilator executable
-export RTLCONFIG="$RISCV/../../sims/verilator/simulator-chipyard.harness-RocketConfig"
-export RTLCONFIG_NAME="RocketConfig"
+# verilator executable - this should be updated with the path to executable under test
+export RTLCONFIG="$RISCV/../../sims/verilator/simulator-chipyard.harness-FastRocketConfig"
+
+# this is only used for naming output files downstream
+export RTLCONFIG_NAME="FastRocketConfig"
 
 # user large or small tests
 export MIBENCH_FAST=true
 
-# whether we want tracing
+# whether we want tracing - currently not supported
 export MIBENCH_TRACE=false
 
 # command to run binaries
@@ -68,6 +82,7 @@ if [ ! -d $CURRDIR"/_Benchmark_Results" ] ; then
     mkdir $CURRDIR/"_Benchmark_Results"
 fi
 
+# Loop through all user-specified benchmarks
 for d in ${SRCDIRS}
 do
     echo ${d}
@@ -75,7 +90,6 @@ do
     timestamp=$(date +%Y_%m_%d_%H%M%S)
     benchmark=$(echo "$d" | sed 's/\//-/g')
     time perf stat -o $RTLCONFIG_NAME'_'$benchmark'_'$timestamp'.txt' -- ./run-all.sh > filename
-    #./run-all.sh
     mv $RTLCONFIG_NAME* $CURRDIR"/_Benchmark_Results"
     cd ${CURRDIR}
 done

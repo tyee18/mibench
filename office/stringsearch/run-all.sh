@@ -27,8 +27,8 @@ make
 timestamp=$(date +%Y_%m_%d_%H%M%S)
 
 if [ "$MIBENCH_FAST" = true ] ; then
-    ${MIBENCH_RUN} search_small input.dat > $RTLCONFIG_NAME'_'$timestamp'_stringsearch_output_small.txt'
+    ${MIBENCH_RUN} search_small > $RTLCONFIG_NAME'_'$timestamp'_stringsearch_output_small.txt'
 
 else
-    ${MIBENCH_RUN} search_large input.dat > $RTLCONFIG_NAME'_'$timestamp'_stringsearch_output_large.txt'
+    ${MIBENCH_RUN} search_large > $RTLCONFIG_NAME'_'$timestamp'_stringsearch_output_large.txt'
 fi
