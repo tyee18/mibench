@@ -13,6 +13,7 @@
 #include <time.h>
 #include <float.h>
 #include "bitops.h"
+#include "../../timers/timers.h"
 
 #define FUNCS  7
 
@@ -53,6 +54,9 @@ int main(int argc, char *argv[])
   
   puts("Bit counter algorithm benchmark\n");
   
+	// Initialize counters for analysis
+	Timer t;
+	t = update_start_timers(t);
   for (i = 0; i < FUNCS; i++) {
     start = clock();
     
@@ -69,6 +73,10 @@ int main(int argc, char *argv[])
 	 cmax = ct;
 	 cmaxix = i;
     }
+	
+	  // Read counters after execution, and print timing data
+	  t = update_stop_timers(t);
+	  print_timing_data(t);
     
     printf("%-38s> Time: %7.3f sec.; Bits: %ld\n", text[i], ct, n);
   }

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "../../timers/timers.h"
 
 #define NUM_NODES                          100
 #define NONE                               9999
@@ -151,6 +152,10 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "Only supports matrix size is #define'd.\n");
   }
 
+	// Initialize counters for analysis
+	Timer t;
+	t = update_start_timers(t);
+
   /* open the adjacency matrix file */
   fp = fopen (argv[1],"r");
 
@@ -168,6 +173,11 @@ int main(int argc, char *argv[]) {
 			j=j%NUM_NODES;
       dijkstra(i,j);
   }
+	
+	// Read counters after execution, and print timing data
+	t = update_stop_timers(t);
+	print_timing_data(t);
+
   exit(0);
   
 

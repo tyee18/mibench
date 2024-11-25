@@ -15,6 +15,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <limits.h>
+#include "../../timers/timers.h"
 
 static size_t table[UCHAR_MAX + 1];
 static size_t len;
@@ -145,7 +146,12 @@ main()
 				"principles."			       
 };
       int i;
+	  
+	  // Initialize counters for analysis
+	  Timer t;
+	  t = update_start_timers(t);
 
+	  // Begin benchmark execution
       for (i = 0; find_strings[i]; i++)
       {
             init_search(find_strings[i]);
@@ -156,7 +162,10 @@ main()
                   printf(" [\"%s\"]", here);
             putchar('\n');
       }
-
+	
+	  // Read counters after execution, and print timing data
+	  t = update_stop_timers(t);
+	  print_timing_data(t);
       return 0;
 }
 

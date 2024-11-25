@@ -13,5 +13,5 @@ provided which are called through `run-all.sh`. They server as wrappers for
 the benchmarks. The `spike-wrapper-traces.sh` additionaly produces execution
 traces stored in a cvs file in the same folder as the executed binary. Those
 traces can be used with
-[trdb](https://github.com/pulp-platform/trace_debugger/tree/master/trdb) to do
+[trdb](https://github.com/pulp-platform/trace_debugger/tree/trdb_dev) to do
 trace compression benchmarks.

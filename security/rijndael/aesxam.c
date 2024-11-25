@@ -42,6 +42,7 @@
 #include <ctype.h>
 
 #include "aes.h"
+#include "../../timers/timers.h"
 
 /* A Pseudo Random Number Generator (PRNG) used for the     */
 /* Initialisation Vector. The PRNG is George Marsaglia's    */
@@ -246,6 +247,15 @@ int main(int argc, char *argv[])
     cp = argv[4];   /* this is a pointer to the hexadecimal key digits  */
     i = 0;          /* this is a count for the input digits processed   */
     
+	// Initialize counters for analysis
+	Timer t;
+	t.CPUTimeStart = update_cpu_time_val();
+	t.numCPUCyclesStart = update_num_cycles_val();
+	t.numInstretsStart = update_instrets_val();
+	t.branchMissStart = update_branch_miss_val();
+	t.branchesTakenStart = update_branch_taken_val();
+	t.instrCacheMissStart = update_instruction_cache_miss_val();
+    
     while(i < 64 && *cp)    /* the maximum key length is 32 bytes and   */
     {                       /* hence at most 64 hexadecimal digits      */
         ch = toupper(*cp++);            /* process a hexadecimal digit  */
@@ -293,19 +303,35 @@ int main(int argc, char *argv[])
     {                           /* encryption in Cipher Block Chaining mode */
         set_key(key, key_len, enc, ctx);
 
+	    // Initialize counters for analysis
+	    Timer t;
+	    t = update_start_timers(t);
+
         err = encfile(fin, fout, ctx, argv[1]);
+
+        // Read counters after execution
+	    t = update_stop_timers(t);
     }
     else
     {                           /* decryption in Cipher Block Chaining mode */
         set_key(key, key_len, dec, ctx);
+
+	    // Initialize counters for analysis
+	    Timer t;
+	    t = update_start_timers(t);
     
         err = decfile(fin, fout, ctx, argv[1], argv[2]);
+
+        // Read counters after execution
+	    t = update_stop_timers(t);
     }
-exit:   
+exit: 
+	// Print timing data
+	print_timing_data(t);
+    return err;
+
     if(fout) 
         fclose(fout);
     if(fin)
         fclose(fin);
-
-    return err;
 }

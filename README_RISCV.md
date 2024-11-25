@@ -64,10 +64,10 @@ The goal of this repository is to add compatibility between the free MiBench ben
 - [x] basicmath
 - [x] bitcount
 - [x] qsort
-- [x] susan
+- [x] susan - currently does NOT support `hpmcounter` monitoring events
 
 ### Consumer <a id="consumer-"></a>
-- [x] jpeg
+- [x] jpeg - currently does NOT support `hpmcounter` monitoring events
 - [ ] lame
 - [ ] mad
 - [ ] tiff-data
@@ -96,7 +96,7 @@ The goal of this repository is to add compatibility between the free MiBench ben
 - [x] sha
 
 ### Telecomm <a id="telecomm-"></a>
-- [x] adpcm
+- [x] adpcm - currently does NOT support `hpmcounter` monitoring events
 - [x] CRC32
 - [x] fft
 - [ ] gsm

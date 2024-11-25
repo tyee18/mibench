@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "../../timers/timers.h"
 
 int main(int argc, char *argv[]) {
 	unsigned MAXSIZE;
@@ -60,10 +61,18 @@ int main(int argc, char *argv[]) {
   	 ImagIn[i]=0;
 	 }
  }
+	  
+ // Initialize counters for analysis
+ Timer t;
+ t = update_start_timers(t);
 
  /* regular*/
  fft_float (MAXSIZE,invfft,RealIn,ImagIn,RealOut,ImagOut);
- 
+	
+ // Read counters after execution, and print timing data
+ t = update_stop_timers(t);
+ print_timing_data(t);
+
  printf("RealOut:\n");
  for (i=0;i<MAXSIZE;i++)
    printf("%f \t", RealOut[i]);

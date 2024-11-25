@@ -1,6 +1,7 @@
 #include "snipmath.h"
 #include <math.h>
 #include <stdio.h>
+#include "../../timers/timers.h"
 
 /* The printf's may be removed to isolate just the math calculations */
 
@@ -18,7 +19,11 @@ int main(void)
   struct int_sqrt q;
   long n = 0;
 
-  /* solve soem cubic functions */
+	// Initialize counters for analysis
+	Timer t;
+	t = update_start_timers(t);
+
+  /* solve some cubic functions */
   printf("********* CUBIC FUNCTIONS ***********\n");
   /* should get 3 solutions: 2, 6 & 2.5   */
   SolveCubic(a1, b1, c1, d1, &solutions, x);  
@@ -80,6 +85,9 @@ int main(void)
   for (X = 0.0; X <= (2 * PI + 1e-6); X += (PI / 180))
     printf("%.12f radians = %3.0f degrees\n", X, rad2deg(X));
   
+	// Read counters after execution, and print timing data
+	t = update_stop_timers(t);
+	print_timing_data(t);
   
   return 0;
 }

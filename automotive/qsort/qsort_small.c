@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "../../timers/timers.h"
 
 #define UNLIMIT
 #define MAXARRAY 60000 /* this number, if too large, will cause a seg. fault!! */
@@ -37,8 +38,17 @@ main(int argc, char *argv[]) {
     }
   }
   printf("\nSorting %d elements.\n\n",count);
+
+	// Initialize counters for analysis
+	Timer t;
+	t = update_start_timers(t);
+
   qsort(array,count,sizeof(struct myStringStruct),compare);
   
+	// Read counters after execution, and print timing data
+	t = update_stop_timers(t);
+	print_timing_data(t);
+
   for(i=0;i<count;i++)
     printf("%s\n", array[i].qstring);
   return 0;

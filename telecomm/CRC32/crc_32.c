@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "crc.h"
+#include "../../timers/timers.h"
 
 #ifdef __TURBOC__
  #pragma warn -cln
@@ -177,11 +178,20 @@ main(int argc, char *argv[])
       DWORD crc;
       long charcnt;
       register errors = 0;
-
+  
+	// Initialize counters for analysis
+	Timer t;
+	t = update_start_timers(t);
+      
       while(--argc > 0)
       {
             errors |= crc32file(*++argv, &crc, &charcnt);
             printf("%08lX %7ld %s\n", crc, charcnt, *argv);
       }
+
+	// Read counters after execution, and print timing data
+	t = update_stop_timers(t);
+	print_timing_data(t);
+      
       return(errors != 0);
 }

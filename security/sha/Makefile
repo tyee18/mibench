@@ -5,8 +5,8 @@
 
 CFLAGS = -O3 -Wall
 
-sha:	sha_driver.o sha.o
-	$(CC) -o $@ sha_driver.o sha.o
+sha:	sha_driver.o sha.o ../../timers/timers.c
+	$(CC) -o $@ sha_driver.o sha.o ../../timers/timers.c
 
 clean:
 	rm -rf *.o sha output*
