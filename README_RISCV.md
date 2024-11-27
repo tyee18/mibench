@@ -92,7 +92,7 @@ The goal of this repository is to add compatibility between the free MiBench ben
 ### Security <a id="security-"></a>
 - [ ] blowfish
 - [ ] pgp
-- [x] rijndael
+- [x] rijndael - currently does NOT support `hpmcounter` monitoring events
 - [x] sha
 
 ### Telecomm <a id="telecomm-"></a>
