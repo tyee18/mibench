@@ -40,6 +40,7 @@ The goal of this repository is to add compatibility between the free MiBench ben
   - At the top level directory, there should be a `run-all-rocket.sh` script, that can loop through available test suites, build them with your choice of compiler, and run them against a selected simulator.
   - Benchmarks are timed and saved off using `time` and `perf`, for viewing later. `perf` covers a lot of good basics, such as number of cycles / instructions / branches executed, branch misses, but these are relative to your physical CPU, **NOT** the emulated RISC-V CPU.
     - Note that if you are using a WSL distribution on Windows 10, the aforementioned hardware counters are not supported. Workarounds include running benchmarks on Windows 11, or having a physical installation of Linux / Ubuntu / your distribution of choice.
+    - Support has been added to read the `hpmcounters` available to your build. If you don't have these enabled, you'll need to comment out the calls to the `update_start_timers()` and `update_stop_timers()`.
 - Instructions as follows (assumes Chipyard has already been built / established) to build and run benchmarks **manually**:
   1. From your MiBench repo, source the chipyard `env.sh` so that you have paths to the tools available
   2. Set your `CC` environment variable to whichever `gcc` library you plan on using for compatibility to your simulated design. In my case, I was running with a verilator simulator harness, on a Windows Subsystem for Linux (WSL), so I chose to use the `riscv64-unknown-elf-gcc`. So:
