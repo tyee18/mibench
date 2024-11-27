@@ -20,7 +20,7 @@
 # this program; if not, write to the Free Software Foundation, Inc., 51
 # Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
 
-# Currently supported options:
+# Currently supported options (see README_RISCV.md for details):
 # automotive/basicmath
 # automotive/bitcount
 # automotive/qsort
@@ -30,7 +30,7 @@
 # office/stringsearch
 # security/rjindael
 # security/sha
-# telecomm/adpcm
+# telecomm/adpcm/src
 # telecomm/CRC32
 # telecomm/fft
 
@@ -38,7 +38,7 @@
 # SRCDIRS="automotive/bitcount network/dijkstra telecomm/CRC32"
 # NOTE: it is important here to specify the FULL PATH to the respective "run-all.sh" file.
 # E.g., to run the JPEG test, SRCDIRS="consumer/jpeg/jpeg-6a"
-SRCDIRS=""
+SRCDIRS="office/stringsearch telecomm/fft automotive/qsort security/sha automotive/bitcount network/dijkstra telecomm/CRC32 automotive/basicmath"
 
 CURRDIR=$(pwd)
 
@@ -55,10 +55,10 @@ fi
 export CC="$RISCV/bin/riscv64-unknown-elf-gcc"
 
 # verilator executable - this should be updated with the path to executable under test
-export RTLCONFIG="$RISCV/../../sims/verilator/simulator-chipyard.harness-FastRocketConfig"
+export RTLCONFIG="$RISCV/../../sims/verilator/simulator-chipyard.harness-FastRocketConfigWCounters"
 
 # this is only used for naming output files downstream
-export RTLCONFIG_NAME="FastRocketConfig"
+export RTLCONFIG_NAME="FastRocketConfigWCounters"
 
 # user large or small tests
 export MIBENCH_FAST=true

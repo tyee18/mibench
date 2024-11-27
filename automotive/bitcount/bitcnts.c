@@ -73,15 +73,16 @@ int main(int argc, char *argv[])
 	 cmax = ct;
 	 cmaxix = i;
     }
-	
-	  // Read counters after execution, and print timing data
-	  t = update_stop_timers(t);
-	  print_timing_data(t);
     
     printf("%-38s> Time: %7.3f sec.; Bits: %ld\n", text[i], ct, n);
   }
   printf("\nBest  > %s\n", text[cminix]);
   printf("Worst > %s\n", text[cmaxix]);
+	
+	// Read counters after execution, and print timing data
+	t = update_stop_timers(t);
+	print_timing_data(t);
+  
   return 0;
 }
 

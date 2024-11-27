@@ -100,6 +100,7 @@ int encfile(FILE *fin, FILE *fout, aes *ctx, char* fn)
 {   char            inbuf[16], outbuf[16];
     fpos_t          flen;
     unsigned long   i=0, l=0;
+	Timer t;
 
     fillrand(outbuf, 16);           /* set an IV for CBC mode           */
     fseek(fin, 0, SEEK_END);        /* get the length of the file       */
@@ -110,6 +111,9 @@ int encfile(FILE *fin, FILE *fout, aes *ctx, char* fn)
     l = 15;                         /* and store the length of the last */
                                     /* block in the lower 4 bits        */
     inbuf[0] = ((char)flen & 15) | (inbuf[0] & ~15);
+
+	// Initialize counters for analysis
+	t = update_start_timers(t);
 
     while(!feof(fin))               /* loop to encrypt the input file   */
     {                               /* input 1st 16 bytes to buf[1..16] */
@@ -156,6 +160,10 @@ int encfile(FILE *fin, FILE *fout, aes *ctx, char* fn)
             return -8;
         }
     }
+
+    // Read counters after execution, and print timing data
+	t = update_stop_timers(t);
+	print_timing_data(t);
         
     return 0;
 }
@@ -163,6 +171,10 @@ int encfile(FILE *fin, FILE *fout, aes *ctx, char* fn)
 int decfile(FILE *fin, FILE *fout, aes *ctx, char* ifn, char* ofn)
 {   char    inbuf1[16], inbuf2[16], outbuf[16], *bp1, *bp2, *tp;
     int     i, l, flen;
+    Timer t;
+
+	// Initialize counters for analysis
+	t = update_start_timers(t);
 
     if(fread(inbuf1, 1, 16, fin) != 16)  /* read Initialisation Vector   */
     {
@@ -229,6 +241,10 @@ int decfile(FILE *fin, FILE *fout, aes *ctx, char* ifn, char* ofn)
             return -12;
         }
 
+    // Read counters after execution, and print timing data
+	t = update_stop_timers(t);
+	print_timing_data(t);
+
     return 0;
 }
 
@@ -246,15 +262,6 @@ int main(int argc, char *argv[])
 
     cp = argv[4];   /* this is a pointer to the hexadecimal key digits  */
     i = 0;          /* this is a count for the input digits processed   */
-    
-	// Initialize counters for analysis
-	Timer t;
-	t.CPUTimeStart = update_cpu_time_val();
-	t.numCPUCyclesStart = update_num_cycles_val();
-	t.numInstretsStart = update_instrets_val();
-	t.branchMissStart = update_branch_miss_val();
-	t.branchesTakenStart = update_branch_taken_val();
-	t.instrCacheMissStart = update_instruction_cache_miss_val();
     
     while(i < 64 && *cp)    /* the maximum key length is 32 bytes and   */
     {                       /* hence at most 64 hexadecimal digits      */
@@ -303,31 +310,15 @@ int main(int argc, char *argv[])
     {                           /* encryption in Cipher Block Chaining mode */
         set_key(key, key_len, enc, ctx);
 
-	    // Initialize counters for analysis
-	    Timer t;
-	    t = update_start_timers(t);
-
         err = encfile(fin, fout, ctx, argv[1]);
-
-        // Read counters after execution
-	    t = update_stop_timers(t);
     }
     else
     {                           /* decryption in Cipher Block Chaining mode */
         set_key(key, key_len, dec, ctx);
-
-	    // Initialize counters for analysis
-	    Timer t;
-	    t = update_start_timers(t);
     
         err = decfile(fin, fout, ctx, argv[1], argv[2]);
-
-        // Read counters after execution
-	    t = update_stop_timers(t);
     }
 exit: 
-	// Print timing data
-	print_timing_data(t);
     return err;
 
     if(fout) 
